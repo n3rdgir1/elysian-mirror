@@ -4,11 +4,10 @@ to generate responses based on user-provided prompts.
 """
 
 from flask import Flask, request, jsonify
-from sqlalchemy import text
-from util.database import initialize_database, get_session
-from pgvector.sqlalchemy import Vector
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
+from sqlalchemy import text
+from util.database import initialize_database, get_session
 
 app = Flask(__name__)
 
@@ -39,13 +38,27 @@ def generate():
 
 @app.route('/system_prompt', methods=['GET'])
 def get_system_prompt():
-    result = session.execute(text("SELECT description FROM metadata WHERE name = 'system_prompt'")).fetchone()
+    """
+    Retrieve the system prompt from the database.
+
+    Returns:
+        A JSON response containing the system prompt or an error message.
+    """
+    result = session.execute(
+        text("SELECT description FROM metadata WHERE name = 'system_prompt'")
+    ).fetchone()
     if result:
         return jsonify({"system_prompt": result['description']})
     return jsonify({"error": "System prompt not found"}), 404
 
 @app.route('/system_prompt', methods=['PUT'])
 def update_system_prompt():
+    """
+    Update the system prompt in the database.
+
+    Returns:
+        A JSON response indicating success or an error message.
+    """
     data = request.json
     description = data.get('description')
     if not description:

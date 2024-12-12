@@ -21,7 +21,7 @@ This project is a Flask web application that uses `pgvector` for vector storage 
 2. Run the Docker container:
 
    ```bash
-   docker run --name pgvector -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 ankane/pgvector
+   docker run --name pgvector -e POSTGRES_USER=mirror -e POSTGRES_PASSWORD=mysecretpassword -e POSTGRES_DB=mirror -d -p 6024:5432 pgvector/pgvector:pg16
    ```
 
    Replace `mysecretpassword` with a secure password of your choice.
@@ -51,7 +51,7 @@ This project is a Flask web application that uses `pgvector` for vector storage 
 1. Set the `DATABASE_URL` environment variable with your database connection string. For example:
 
    ```bash
-   export DATABASE_URL="postgresql://postgres:mysecretpassword@localhost:5432/postgres"
+   export DATABASE_URL="postgresql://mirror:mysecretpassword@localhost:6024/mirror"
    ```
 
 ### Step 4: Run the Application
