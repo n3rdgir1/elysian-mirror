@@ -48,10 +48,10 @@ This project is a Flask web application that uses `pgvector` for vector storage 
 
 ### Step 3: Configure the Database
 
-1. Update the `DATABASE_URL` in `util/database.py` with your database connection string. For example:
+1. Set the `DATABASE_URL` environment variable with your database connection string. For example:
 
-   ```python
-   DATABASE_URL = "postgresql://postgres:mysecretpassword@localhost:5432/postgres"
+   ```bash
+   export DATABASE_URL="postgresql://postgres:mysecretpassword@localhost:5432/postgres"
    ```
 
 ### Step 4: Run the Application
