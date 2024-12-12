@@ -4,6 +4,7 @@ to generate responses based on user-provided prompts.
 """
 
 from flask import Flask, request, jsonify
+from sqlalchemy import text
 from util.database import initialize_database, get_session
 from pgvector.sqlalchemy import Vector
 from langchain_ollama.llms import OllamaLLM
