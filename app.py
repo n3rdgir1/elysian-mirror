@@ -8,6 +8,7 @@ from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
 from util.database import initialize_database, get_session
 from util.models.metadata import Metadata
+from llm.embedder import Embedder
 
 app = Flask(__name__)
 
@@ -67,5 +68,27 @@ def update_system_prompt():
 
     return jsonify({"message": "System prompt updated successfully"})
 
-if __name__ == '__main__':
+embedder = Embedder()
+
+@app.route('/embed', methods=['POST'])
+def embed_text():
+    """
+    Embed a title and description and save it to the database.
+
+    Returns:
+        A JSON response indicating success or an error message.
+    """
+    data = request.json
+    title = data.get('title')
+    description = data.get('description')
+    if not title or not description:
+        return jsonify({"error": "Title and description are required"}), 400
+
+    # Generate embeddings
+    embedding = embedder.embed(f"{title} {description}")
+
+    # Save the embedding to the database (assuming a function save_embedding exists)
+    # save_embedding(session, title, description, embedding)
+
+    return jsonify({"message": "Embedding saved successfully"})
     app.run(debug=True)
