@@ -4,3 +4,4 @@ langchain-ollama
 pgvector
 sqlalchemy
 psycopg2
+langchain_postgres

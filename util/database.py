@@ -2,6 +2,8 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from langchain_postgres import PGVector
+from langchain_ollama.embeddings import OllamaEmbeddings
 
 Base = declarative_base()
 DATABASE_URL = os.getenv(
@@ -9,6 +11,12 @@ DATABASE_URL = os.getenv(
     "postgresql://mirror:mysecretpassword@localhost:6024/mirror")
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
+vector_store = PGVector(
+    embeddings=OllamaEmbeddings(model="llama3"),
+    collection_name='embeddings',
+    connection=DATABASE_URL,
+    use_jsonb=True,
+)
 
 def initialize_database():
     """
@@ -16,6 +24,7 @@ def initialize_database():
     """
     # Create table if not exists
     Base.metadata.create_all(engine)
+    vector_store.create_collection()
 
 
 def get_session():

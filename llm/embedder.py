@@ -1,8 +1,5 @@
-from langchain_ollama.embeddings import OllamaEmbedder
+from langchain_core.documents import Document
+from util.database import vector_store
 
-class Embedder:
-    def __init__(self):
-        self.embedder = OllamaEmbedder(model="nomic-embed-text")
-
-    def embed(self, text):
-        return self.embedder.embed(text)
+def embed(title, description):
+    vector_store.add_documents([Document(f"{title}\n{description}")])
