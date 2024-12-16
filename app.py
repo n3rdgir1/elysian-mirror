@@ -5,10 +5,10 @@ to generate responses based on user-provided prompts.
 
 from flask import Flask, request, jsonify
 from langchain_ollama.llms import OllamaLLM
-from langchain_core.prompts import ChatPromptTemplate
 from util.database import initialize_database, get_session
 from util.models.metadata import Metadata
 from llm.embedder import embed
+from llm.generate_response import generate_response
 
 app = Flask(__name__)
 
@@ -31,10 +31,7 @@ def generate():
     prompt = data.get('prompt', '')
 
     # Generate a response using the LLM
-    system_prompt = Metadata().get_system_prompt(session)
-    template = ChatPromptTemplate.from_template("{system_prompt}\n{question}")
-    chain = template | llm
-    response = chain.invoke({"question": prompt, "system_prompt": system_prompt})
+    response = generate_response(session, prompt)
 
     return jsonify({'response': response})
 
