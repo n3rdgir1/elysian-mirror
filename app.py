@@ -9,6 +9,7 @@ from util.database import initialize_database, get_session
 from util.models.metadata import Metadata
 from llm.embedder import embed
 from llm.generate_response import generate_response
+from llm.rag import rag
 
 app = Flask(__name__)
 
@@ -83,6 +84,22 @@ def embed_text():
     embed(title, description)
 
     return jsonify({"message": "Embedding saved successfully"})
+
+@app.route('/rag', methods=['POST'])
+def rag_endpoint():
+    """
+    Retrieve and generate an answer for a given question using RAG.
+
+    Returns:
+        A JSON response containing the generated answer.
+    """
+    data = request.json
+    question = data.get('question', '')
+
+    # Retrieve and generate an answer using RAG
+    answer = rag(question)
+
+    return jsonify({'answer': answer})
 
 if __name__ == '__main__':
     app.run(debug=True)
