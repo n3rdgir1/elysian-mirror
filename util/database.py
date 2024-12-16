@@ -1,7 +1,9 @@
 import os
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
+Base = declarative_base()
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
     "postgresql://mirror:mysecretpassword@localhost:6024/mirror")
@@ -13,13 +15,8 @@ def initialize_database():
     Initialize the database by creating the necessary tables if they do not exist.
     """
     # Create table if not exists
-    with engine.connect() as connection:
-        connection.execute(text("""
-        CREATE TABLE IF NOT EXISTS metadata (
-            name TEXT PRIMARY KEY,
-            description TEXT
-        )
-        """))
+    Base.metadata.create_all(engine)
+
 
 def get_session():
     """

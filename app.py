@@ -6,8 +6,8 @@ to generate responses based on user-provided prompts.
 from flask import Flask, request, jsonify
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
-from sqlalchemy import text
 from util.database import initialize_database, get_session
+from util.models.metadata import Metadata
 
 app = Flask(__name__)
 
@@ -30,9 +30,10 @@ def generate():
     prompt = data.get('prompt', '')
 
     # Generate a response using the LLM
-    template = ChatPromptTemplate.from_template("{question}")
+    system_prompt = Metadata().get_system_prompt(session)
+    template = ChatPromptTemplate.from_template("{system_prompt}\n{question}")
     chain = template | llm
-    response = chain.invoke({"question": prompt})
+    response = chain.invoke({"question": prompt, "system_prompt": system_prompt})
 
     return jsonify({'response': response})
 
@@ -44,12 +45,8 @@ def get_system_prompt():
     Returns:
         A JSON response containing the system prompt or an error message.
     """
-    result = session.execute(
-        text("SELECT description FROM metadata WHERE name = 'system_prompt'")
-    ).fetchone()
-    if result:
-        return jsonify({"system_prompt": result['description']})
-    return jsonify({"error": "System prompt not found"}), 404
+    system_prompt = Metadata().get_system_prompt(session)
+    return jsonify({"system_prompt": system_prompt})
 
 @app.route('/system_prompt', methods=['PUT'])
 def update_system_prompt():
@@ -65,11 +62,8 @@ def update_system_prompt():
         return jsonify({"error": "Description is required"}), 400
 
     # Update or insert the system prompt
-    session.execute(text("""
-    INSERT INTO metadata (name, description) VALUES ('system_prompt', :description)
-    ON CONFLICT (name) DO UPDATE SET description = :description
-    """), {"description": description})
-    session.commit()
+    metadata = Metadata()
+    metadata.update_system_prompt(session, description)
 
     return jsonify({"message": "System prompt updated successfully"})
 
