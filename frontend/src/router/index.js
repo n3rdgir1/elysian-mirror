@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import GenerateIdeas from '../views/GenerateIdeas.vue'
 import SearchKnowledge from '../views/SearchKnowledge.vue'
+import SystemPrompt from '../views/SystemPrompt.vue'
 
 const routes = [
   {
     path: '/',
-    redirect: '/search-knowledge'
+    redirect: '/system-prompt'
   },
   {
     path: '/generate-ideas',
@@ -16,6 +17,11 @@ const routes = [
     path: '/search-knowledge',
     name: 'SearchKnowledge',
     component: SearchKnowledge
+  },
+  {
+    path: '/system-prompt',
+    name: 'SystemPrompt',
+    component: SystemPrompt
   }
 ]
 
