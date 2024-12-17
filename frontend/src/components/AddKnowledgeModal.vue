@@ -29,16 +29,34 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 export default {
   name: 'AddKnowledgeModal',
-  setup() {
-    const title = ref('')
-    const description = ref('')
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+    description: {
+      type: String,
+      default: ''
+    }
+  },
+  setup(props) {
+    const title = ref(props.title)
+    const description = ref(props.description)
     const errors = ref({})
     const isLoading = ref(false)
     const apiResponse = ref(null)
+
+    watch(() => props.title, (newTitle) => {
+      title.value = newTitle
+    })
+
+    watch(() => props.description, (newDescription) => {
+      description.value = newDescription
+    })
 
     function validateForm() {
       errors.value = {}

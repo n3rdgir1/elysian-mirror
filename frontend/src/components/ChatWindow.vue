@@ -11,6 +11,9 @@
             <i v-else class="fas fa-robot"></i>
             {{ message.text }}
           </span>
+          <button v-if="!message.isUser && showAddToKnowledgeButton" @click="addToKnowledge(message, messages[index - 1])" class="ml-2 p-1 bg-green-500 text-white rounded" title="Add to Knowledge">
+            <i class="fas fa-plus"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -28,7 +31,11 @@ export default {
   name: 'ChatWindow',
   props: {
     title: String,
-    apiEndpoint: String
+    apiEndpoint: String,
+    showAddToKnowledgeButton: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -73,6 +80,9 @@ export default {
         };
         this.messages.push(errorMessage);
       }
+    },
+    addToKnowledge(botMessage, userMessage) {
+      this.$emit('add-to-knowledge', { botMessage, userMessage });
     }
   }
 }
