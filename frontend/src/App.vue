@@ -1,20 +1,29 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="min-h-screen flex flex-col">
+    <header class="bg-gray-800 text-white p-4">
+      <h1 class="text-2xl">Elysian Mirror</h1>
+    </header>
+    <main class="flex flex-1">
+      <ChatWindow title="Generate Ideas" api-endpoint="/generate" />
+      <ChatWindow title="Search Knowledgebase" api-endpoint="/rag" />
+    </main>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ChatWindow from './components/ChatWindow.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    ChatWindow
   }
 }
 </script>
 
 <style>
+@import './assets/tailwind.css';
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
