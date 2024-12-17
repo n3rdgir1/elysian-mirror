@@ -5,13 +5,17 @@ import SearchKnowledge from '../views/SearchKnowledge.vue'
 const routes = [
   {
     path: '/',
-    name: 'SearchKnowledge',
-    component: SearchKnowledge
+    redirect: '/search-knowledge'
   },
   {
     path: '/generate-ideas',
     name: 'GenerateIdeas',
     component: GenerateIdeas
+  },
+  {
+    path: '/search-knowledge',
+    name: 'SearchKnowledge',
+    component: SearchKnowledge
   }
 ]
 
