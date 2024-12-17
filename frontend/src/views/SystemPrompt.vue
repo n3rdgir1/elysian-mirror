@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col h-full w-full">
     <div class="bg-gray-700 text-white p-4 fixed w-full">
-      <h1 class="text-2xl">System Prompt</h1>
+      <h1 class="text-2xl text-left">System Prompt</h1>
     </div>
     <div class="flex-1 overflow-y-auto p-4 mt-16">
       <form @submit.prevent="saveSystemPrompt">

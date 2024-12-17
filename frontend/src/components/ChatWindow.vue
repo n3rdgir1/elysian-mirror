@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col h-full w-full">
     <div class="bg-gray-700 text-white p-4 fixed w-full">
-      <h2 class="text-xl">{{ title }}</h2>
+      <h2 class="text-xl text-left">{{ title }}</h2>
     </div>
     <div class="flex-1 overflow-y-auto p-4 mt-16">
       <div v-for="(message, index) in messages" :key="index" class="mb-2">
