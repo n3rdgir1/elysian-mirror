@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-full w-1/2">
+  <div class="flex flex-col h-full w-full">
     <div class="bg-gray-800 text-white p-4">
       <h2 class="text-xl">{{ title }}</h2>
     </div>
@@ -7,6 +7,8 @@
       <div v-for="(message, index) in messages" :key="index" class="mb-2">
         <div :class="{'text-right': message.isUser}">
           <span :class="{'bg-blue-500 text-white': message.isUser, 'bg-gray-300': !message.isUser}" class="inline-block p-2 rounded">
+            <i v-if="message.isUser" class="fas fa-user"></i>
+            <i v-else class="fas fa-robot"></i>
             {{ message.text }}
           </span>
         </div>
@@ -14,7 +16,9 @@
     </div>
     <div class="p-4 bg-gray-100 flex">
       <input v-model="newMessage" @keyup.enter="sendMessage" class="flex-1 p-2 border rounded" type="text" placeholder="Type a message...">
-      <button @click="sendMessage" class="ml-2 p-2 bg-blue-500 text-white rounded">Send</button>
+      <button @click="sendMessage" class="ml-2 p-2 bg-blue-500 text-white rounded">
+        <i class="fas fa-paper-plane"></i> Send
+      </button>
     </div>
   </div>
 </template>
