@@ -44,7 +44,7 @@ export default {
       this.newMessage = '';
 
       try {
-        const response = await fetch(this.apiEndpoint, {
+        const response = await fetch('http://127.0.0.1:5000' + this.apiEndpoint, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
