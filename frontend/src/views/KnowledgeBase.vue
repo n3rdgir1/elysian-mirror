@@ -12,6 +12,12 @@
           </div>
         </li>
       </ul>
+      <div v-if="knowledgeItems.length === 0" class="flex justify-center mt-4">
+        <button @click="openAddKnowledgeModal" class="bg-blue-500 text-white p-2 rounded flex items-center">
+          <i class="fas fa-plus"></i>
+          <span class="ml-2">Add Knowledge</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -48,12 +54,19 @@ export default {
       return description.replace(/\n/g, '<br>')
     }
 
+    function openAddKnowledgeModal() {
+      // Emit an event to open the Add Knowledge modal
+      const event = new CustomEvent('open-add-knowledge-modal')
+      window.dispatchEvent(event)
+    }
+
     onMounted(fetchKnowledgeItems)
 
     return {
       knowledgeItems,
       toggleDescription,
-      formatDescription
+      formatDescription,
+      openAddKnowledgeModal
     }
   }
 }
