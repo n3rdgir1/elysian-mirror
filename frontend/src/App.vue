@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen flex">
-    <aside :class="['bg-gray-800 text-white p-4', { 'w-16': isCollapsed, 'w-45': !isCollapsed }]">
+    <aside :class="['bg-gray-800 text-white p-4 fixed h-full', { 'w-16': isCollapsed, 'w-45': !isCollapsed }]">
       <button @click="toggleMenu" class="mb-4">
         <span v-if="isCollapsed">☰</span>
         <span v-else>✖</span>
@@ -19,10 +19,16 @@
               <span v-if="!isCollapsed" class="mt-2 text-center">Search<br>Knowledge</span>
             </router-link>
           </li>
+          <li class="mb-4">
+            <router-link to="/system-prompt" class="flex flex-col items-center">
+              <i :class="['fas fa-terminal', { 'text-2xl': isCollapsed, 'text-4xl': !isCollapsed }]"></i>
+              <span v-if="!isCollapsed" class="mt-2 text-center">System<br>Prompt</span>
+            </router-link>
+          </li>
         </ul>
       </nav>
     </aside>
-    <main class="flex-1">
+    <main class="flex-1 ml-16">
       <router-view />
     </main>
   </div>
@@ -34,7 +40,7 @@ import { ref } from 'vue'
 export default {
   name: 'App',
   setup() {
-    const isCollapsed = ref(false)
+    const isCollapsed = ref(true) // Set to true to collapse by default
 
     function toggleMenu() {
       isCollapsed.value = !isCollapsed.value
@@ -58,5 +64,14 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+aside.fixed {
+  top: 0;
+  left: 0;
+}
+
+main {
+  margin-left: 16rem; /* Adjust based on the width of the sidebar */
 }
 </style>
