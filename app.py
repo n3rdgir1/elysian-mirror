@@ -7,6 +7,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from langchain_ollama.llms import OllamaLLM
 from util.database import initialize_database, get_session
+from util.models.embeddings import Embedding
 from util.models.metadata import Metadata
 from llm.embedder import embed
 from llm.generate_response import generate_response
@@ -102,6 +103,21 @@ def rag_endpoint():
     answer = rag(question)
 
     return jsonify({'answer': answer})
+
+@app.route('/knowledge', methods=['GET'])
+def get_knowledge():
+    """
+    Retrieve knowledge items from the vector store.
+
+    Returns:
+        A JSON response containing a list of knowledge items.
+    """
+    knowledge_items = []
+    for doc in Embedding().all(session):
+        title, description = doc.document.split('\n', 1)
+        knowledge_items.append({'title': title, 'description': description})
+
+    return jsonify({'knowledge': knowledge_items})
 
 if __name__ == '__main__':
     app.run(debug=True)

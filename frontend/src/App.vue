@@ -25,6 +25,12 @@
               <span v-if="!isCollapsed" class="mt-2 text-center">System<br>Prompt</span>
             </router-link>
           </li>
+          <li class="mb-4">
+            <router-link to="/knowledge-base" class="flex flex-col items-center">
+              <i :class="['fas fa-book', { 'text-2xl': isCollapsed, 'text-4xl': !isCollapsed }]"></i>
+              <span v-if="!isCollapsed" class="mt-2 text-center">Knowledge<br>Base</span>
+            </router-link>
+          </li>
         </ul>
       </nav>
     </aside>

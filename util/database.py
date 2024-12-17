@@ -23,8 +23,8 @@ def initialize_database():
     Initialize the database by creating the necessary tables if they do not exist.
     """
     # Create table if not exists
-    Base.metadata.create_all(engine)
     vector_store.create_collection()
+    Base.metadata.create_all(engine)
 
 
 def get_session():
