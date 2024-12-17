@@ -4,6 +4,7 @@ to generate responses based on user-provided prompts.
 """
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from langchain_ollama.llms import OllamaLLM
 from util.database import initialize_database, get_session
 from util.models.metadata import Metadata
@@ -12,6 +13,7 @@ from llm.generate_response import generate_response
 from llm.rag import rag
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for the app
 
 # Initialize database
 initialize_database()
