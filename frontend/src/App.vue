@@ -8,15 +8,15 @@
       <nav>
         <ul>
           <li class="mb-4">
-            <router-link to="/generate-ideas" class="flex flex-col items-center">
-              <i :class="['fas fa-lightbulb', { 'text-2xl': isCollapsed, 'text-4xl': !isCollapsed }]"></i>
-              <span v-if="!isCollapsed" class="mt-2 text-center">Generate<br>Ideas</span>
-            </router-link>
-          </li>
-          <li class="mb-4">
             <router-link to="/search-knowledge" class="flex flex-col items-center">
               <i :class="['fas fa-search', { 'text-2xl': isCollapsed, 'text-4xl': !isCollapsed }]"></i>
               <span v-if="!isCollapsed" class="mt-2 text-center">Search<br>Knowledge</span>
+            </router-link>
+          </li>
+          <li class="mb-4">
+            <router-link to="/generate-ideas" class="flex flex-col items-center">
+              <i :class="['fas fa-lightbulb', { 'text-2xl': isCollapsed, 'text-4xl': !isCollapsed }]"></i>
+              <span v-if="!isCollapsed" class="mt-2 text-center">Generate<br>Ideas</span>
             </router-link>
           </li>
           <li class="mb-4">
