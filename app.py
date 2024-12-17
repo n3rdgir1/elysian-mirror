@@ -103,5 +103,20 @@ def rag_endpoint():
 
     return jsonify({'answer': answer})
 
+@app.route('/knowledge', methods=['GET'])
+def get_knowledge():
+    """
+    Retrieve knowledge items from the vector store.
+
+    Returns:
+        A JSON response containing a list of knowledge items.
+    """
+    knowledge_items = []
+    for doc in vector_store.get_all_documents():
+        title, description = doc.page_content.split('\n', 1)
+        knowledge_items.append({'title': title, 'description': description})
+
+    return jsonify({'knowledge': knowledge_items})
+
 if __name__ == '__main__':
     app.run(debug=True)
