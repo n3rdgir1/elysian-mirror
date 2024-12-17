@@ -1,22 +1,22 @@
 <template>
   <div class="min-h-screen flex">
-    <aside :class="['bg-gray-800 text-white p-4', { 'w-16': isCollapsed, 'w-64': !isCollapsed }]">
+    <aside :class="['bg-gray-800 text-white p-4', { 'w-16': isCollapsed, 'w-45': !isCollapsed }]">
       <button @click="toggleMenu" class="mb-4">
         <span v-if="isCollapsed">☰</span>
         <span v-else>✖</span>
       </button>
       <nav>
         <ul>
-          <li>
-            <router-link to="/generate-ideas" class="flex items-center">
-              <span class="material-icons">lightbulb</span>
-              <span v-if="!isCollapsed" class="ml-2">Generate Ideas</span>
+          <li class="mb-4">
+            <router-link to="/generate-ideas" class="flex flex-col items-center">
+              <i :class="['fas fa-lightbulb', { 'text-2xl': isCollapsed, 'text-4xl': !isCollapsed }]"></i>
+              <span v-if="!isCollapsed" class="mt-2 text-center">Generate<br>Ideas</span>
             </router-link>
           </li>
-          <li>
-            <router-link to="/search-knowledge" class="flex items-center">
-              <span class="material-icons">search</span>
-              <span v-if="!isCollapsed" class="ml-2">Search Knowledge</span>
+          <li class="mb-4">
+            <router-link to="/search-knowledge" class="flex flex-col items-center">
+              <i :class="['fas fa-search', { 'text-2xl': isCollapsed, 'text-4xl': !isCollapsed }]"></i>
+              <span v-if="!isCollapsed" class="mt-2 text-center">Search<br>Knowledge</span>
             </router-link>
           </li>
         </ul>
@@ -50,6 +50,7 @@ export default {
 
 <style>
 @import './assets/tailwind.css';
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
