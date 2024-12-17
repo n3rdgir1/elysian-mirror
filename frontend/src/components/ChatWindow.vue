@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-full w-1/2">
+  <div class="flex flex-col h-full w-full">
     <div class="bg-gray-800 text-white p-4">
       <h2 class="text-xl">{{ title }}</h2>
     </div>
