@@ -34,27 +34,27 @@ import { ref, watch } from 'vue'
 export default {
   name: 'AddKnowledgeModal',
   props: {
-    title: {
+    initialTitle: {
       type: String,
       default: ''
     },
-    description: {
+    initialDescription: {
       type: String,
       default: ''
     }
   },
   setup(props) {
-    const title = ref(props.title)
-    const description = ref(props.description)
+    const title = ref(props.initialTitle)
+    const description = ref(props.initialDescription)
     const errors = ref({})
     const isLoading = ref(false)
     const apiResponse = ref(null)
 
-    watch(() => props.title, (newTitle) => {
+    watch(() => props.initialTitle, (newTitle) => {
       title.value = newTitle
     })
 
-    watch(() => props.description, (newDescription) => {
+    watch(() => props.initialDescription, (newDescription) => {
       description.value = newDescription
     })
 

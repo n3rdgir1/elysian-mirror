@@ -1,7 +1,7 @@
 <template>
   <div class="h-full w-full">
     <ChatWindow title="Generate Ideas" apiEndpoint="/generate" @add-to-knowledge="openAddKnowledgeModal" :showAddToKnowledgeButton="true" />
-    <AddKnowledgeModal v-if="isAddKnowledgeModalOpen" @close="closeAddKnowledgeModal" :title="knowledgeTitle" :description="knowledgeDescription" />
+    <AddKnowledgeModal v-if="isAddKnowledgeModalOpen" @close="closeAddKnowledgeModal" :initialTitle="knowledgeTitle" :initialDescription="knowledgeDescription" />
   </div>
 </template>
 
