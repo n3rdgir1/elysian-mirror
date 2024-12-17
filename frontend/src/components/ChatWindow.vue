@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-full w-full">
-    <div class="bg-gray-800 text-white p-4 fixed w-full">
+    <div class="bg-gray-700 text-white p-4 fixed w-full">
       <h2 class="text-xl">{{ title }}</h2>
     </div>
     <div class="flex-1 overflow-y-auto p-4 mt-16">

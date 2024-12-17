@@ -8,7 +8,7 @@
       </button>
     </header>
     <div class="flex flex-1">
-      <aside :class="['bg-gray-800 text-white p-4 fixed h-full', { 'w-16': isCollapsed, 'w-45': !isCollapsed }]">
+      <aside :class="['bg-gray-800 text-white p-4 fixed mt-16', { 'w-16': isCollapsed, 'w-45': !isCollapsed }]">
         <button @click="toggleMenu" class="mb-4">
           <span v-if="isCollapsed">☰</span>
           <span v-else>✖</span>
@@ -101,6 +101,9 @@ export default {
 aside.fixed {
   top: 0;
   left: 0;
+  margin-top: 4rem; /* Adjust the top margin to start lower down */
+  height: calc(100vh - 4rem); /* Adjust the height to make the menu shorter */
+  z-index: 10; /* Ensure the sidebar displays above other elements */
 }
 
 main {
