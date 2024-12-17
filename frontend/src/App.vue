@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen flex flex-col">
     <header class="bg-gray-800 text-white p-4">
-      <h1 class="text-2xl">Elysian Mirror</h1>
+      <h1 class="text-2xl text-left">Elysian Mirror</h1>
     </header>
     <main class="flex flex-1">
       <ChatWindow title="Generate Ideas" api-endpoint="/generate" />
@@ -30,6 +30,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
