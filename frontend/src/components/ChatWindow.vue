@@ -15,6 +15,15 @@
             <i class="fas fa-plus"></i>
           </button>
         </div>
+        <div v-if="message.sources && message.sources.length > 0" class="mt-2">
+          <h3 class="text-lg font-bold">Sources:</h3>
+          <ul>
+            <li v-for="(source, sourceIndex) in message.sources" :key="sourceIndex" class="cursor-pointer" @click="toggleDescription(source)">
+              <span class="text-blue-500">{{ source.title }}</span>
+              <p v-if="source.showDescription" class="mt-1">{{ source.description }}</p>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="p-4 bg-gray-100 flex">
@@ -70,7 +79,8 @@ export default {
         const data = await response.json();
         const botMessage = {
           text: data.response || data.answer,
-          isUser: false
+          isUser: false,
+          sources: data.sources || []
         };
         this.messages.push(botMessage);
       } catch (error) {
@@ -86,6 +96,9 @@ export default {
     },
     formatMessage(message) {
       return message.replace(/\n/g, '<br>')
+    },
+    toggleDescription(source) {
+      source.showDescription = !source.showDescription;
     }
   }
 }

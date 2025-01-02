@@ -66,7 +66,8 @@ This project is a Flask web application that uses `pgvector` for vector storage 
 
 ## Endpoints
 
-- `POST /generate`: Generate a response using the LLM based on the provided prompt.
+- `POST /generate`: Generate a response using the LLM based on the provided prompt. The response includes the generated text and an optional array of sources.
 - `GET /system_prompt`: Retrieve the current system prompt.
 - `PUT /system_prompt`: Update the system prompt.
 - `POST /embed`: Embed a title and description and save it to the database.
+- `POST /rag`: Retrieve and generate an answer for a given question using RAG. The response includes the generated answer and an array of sources.

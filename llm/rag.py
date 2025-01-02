@@ -22,7 +22,12 @@ Answer:"""
 
 def retrieve(question: str):
     """Retrieve documents for a given question."""
-    return vector_store.as_retriever().invoke(question, top_k=5)
+    docs = vector_store.as_retriever().invoke(question, top_k=5)
+    sources = []
+    for doc in docs:
+        title, description = doc.document.split('\n', 1)
+        sources.append({'title': title, 'description': description})
+    return docs, sources
 
 def answer_with_context(question: str, docs: str):
     """Utilizes a LLM to answer the question with a given context.
@@ -47,10 +52,9 @@ def rag(question: str):
         question (str): The question to answer.
 
     Returns:
-        str: The answer to the question.
+        dict: The answer to the question and the sources.
     """
 
-    docs = retrieve(question)
-    return answer_with_context(question, docs)
-
-
+    docs, sources = retrieve(question)
+    answer = answer_with_context(question, docs)
+    return {'answer': answer, 'sources': sources}

@@ -37,7 +37,7 @@ def generate():
     # Generate a response using the LLM
     response = generate_response(session, prompt)
 
-    return jsonify({'response': response})
+    return jsonify({'response': response, 'sources': []})
 
 @app.route('/system_prompt', methods=['GET'])
 def get_system_prompt():
@@ -94,15 +94,15 @@ def rag_endpoint():
     Retrieve and generate an answer for a given question using RAG.
 
     Returns:
-        A JSON response containing the generated answer.
+        A JSON response containing the generated answer and sources.
     """
     data = request.json
     question = data.get('question', '')
 
     # Retrieve and generate an answer using RAG
-    answer = rag(question)
+    result = rag(question)
 
-    return jsonify({'answer': answer})
+    return jsonify({'answer': result['answer'], 'sources': result['sources']})
 
 @app.route('/knowledge', methods=['GET'])
 def get_knowledge():
