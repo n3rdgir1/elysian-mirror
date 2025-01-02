@@ -10,19 +10,19 @@
             <i v-if="message.isUser" class="fas fa-user"></i>
             <i v-else class="fas fa-robot"></i>
             <span v-html="formatMessage(message.text)"></span>
+            <div v-if="message.sources && message.sources.length > 0" class="mt-2">
+              <h3 class="text-lg font-bold">Sources:</h3>
+              <ul>
+                <li v-for="(source, sourceIndex) in message.sources" :key="sourceIndex" class="cursor-pointer" @click="toggleDescription(source)">
+                  <span class="text-blue-500">{{ source.title }}</span>
+                  <p v-if="source.showDescription" class="mt-1">{{ source.description }}</p>
+                </li>
+              </ul>
+            </div>
           </span>
           <button v-if="!message.isUser && showAddToKnowledgeButton" @click="addToKnowledge(message, messages[index - 1])" class="ml-2 p-1 bg-green-500 text-white rounded float-right" title="Add to Knowledge">
             <i class="fas fa-plus"></i>
           </button>
-        </div>
-        <div v-if="message.sources && message.sources.length > 0" class="mt-2">
-          <h3 class="text-lg font-bold">Sources:</h3>
-          <ul>
-            <li v-for="(source, sourceIndex) in message.sources" :key="sourceIndex" class="cursor-pointer" @click="toggleDescription(source)">
-              <span class="text-blue-500">{{ source.title }}</span>
-              <p v-if="source.showDescription" class="mt-1">{{ source.description }}</p>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
