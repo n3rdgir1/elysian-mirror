@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen flex flex-col">
-    <header class="bg-gray-800 text-white p-4 flex justify-between items-center">
+    <header class="bg-gray-800 text-white p-4 flex justify-between items-center fixed w-full z-20">
       <h1 class="text-2xl">Elysian Mirror</h1>
       <button @click="openAddKnowledgeModal" class="bg-blue-500 text-white p-2 rounded flex items-center">
         <i class="fas fa-plus"></i>
@@ -108,5 +108,6 @@ aside.fixed {
 
 main {
   margin-left: 16rem; /* Adjust based on the width of the sidebar */
+  margin-top: 4rem; /* Adjust to account for the fixed header */
 }
 </style>
