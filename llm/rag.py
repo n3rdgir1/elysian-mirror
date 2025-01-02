@@ -25,7 +25,7 @@ def retrieve(question: str):
     docs = vector_store.as_retriever().invoke(question, top_k=5)
     sources = []
     for doc in docs:
-        title, description = doc.document.split('\n', 1)
+        title, description = doc.page_content.split('\n', 1)
         sources.append({'title': title, 'description': description})
     return docs, sources
 
