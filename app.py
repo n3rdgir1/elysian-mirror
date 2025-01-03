@@ -97,7 +97,7 @@ def rag_endpoint():
         A JSON response containing the generated answer and sources.
     """
     data = request.json
-    question = data.get('question', '')
+    question = data.get('prompt', '')
 
     # Retrieve and generate an answer using RAG
     result = rag(question)

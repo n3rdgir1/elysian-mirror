@@ -12,6 +12,7 @@ RAG_PROMPT = PromptTemplate(
 Use the following pieces of retrieved context to answer the question.
 If you don't know the answer, just say that you don't know.
 Use three sentences maximum and keep the answer concise.
+Only include information that is present in the context.
 
 Question: {question}
 
@@ -39,7 +40,7 @@ def answer_with_context(question: str, docs: str):
     Returns:
         str: The answer to the question.
     """
-    llm = OllamaLLM(model="llama3")
+    llm = OllamaLLM(model="phi3:mini")
 
     generation = RAG_PROMPT | llm | StrOutputParser()
 
@@ -54,7 +55,6 @@ def rag(question: str):
     Returns:
         dict: The answer to the question and the sources.
     """
-
     docs, sources = retrieve(question)
     answer = answer_with_context(question, docs)
     return {'answer': answer, 'sources': sources}
