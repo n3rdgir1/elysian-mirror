@@ -6,10 +6,10 @@ to generate responses based on user-provided prompts.
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from langchain_ollama.llms import OllamaLLM
-from util.database import initialize_database, get_session, vector_store
+from util.database import initialize_database, get_session
 from util.models.embeddings import Embedding
 from util.models.metadata import Metadata
-from llm.embedder import embed
+from llm.embedder import embed, remove
 from llm.generate_response import generate_response
 from llm.rag import rag
 
@@ -132,8 +132,7 @@ def delete_knowledge():
     if not knowledge_id:
         return jsonify({"error": "Knowledge ID is required"}), 400
 
-    # Delete the knowledge item from the vector store
-    vector_store.delete(ids=[knowledge_id])
+    remove(knowledge_id)
 
     return jsonify({"message": "Knowledge item deleted successfully"})
 
