@@ -5,10 +5,9 @@
         <i class="fas fa-times"></i>
       </button>
       <div v-if="content" v-html="content"></div>
-      <div class="mt-4 flex justify-end">
+      <div class="mt-4 flex justify-start button-container">
         <button v-if="confirm_text" @click="confirmAction" class="bg-blue-500 text-white p-2 rounded mr-2" ref="confirmButton">{{ confirm_text }}</button>
         <button v-if="cancel_text" @click="closeModal" class="bg-gray-500 text-white p-2 rounded mr-2" ref="cancelButton">{{ cancel_text }}</button>
-        <button @click="closeModal" class="bg-gray-500 text-white p-2 rounded" ref="closeButton">Close</button>
       </div>
       <div v-if="serverMessage" class="mt-4 text-blue-500">{{ serverMessage }}</div>
     </div>
@@ -73,5 +72,9 @@ export default {
 </script>
 
 <style scoped>
+.button-container {
+  display: flex;
+  flex-direction: row-reverse;
+}
 /* Add any additional styling here if needed */
 </style>
