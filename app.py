@@ -9,7 +9,7 @@ from langchain_ollama.llms import OllamaLLM
 from util.database import initialize_database, get_session
 from util.models.embeddings import Embedding
 from util.models.metadata import Metadata
-from llm.embedder import embed, remove
+from llm.embedder import embed, remove, update
 from llm.generate_response import generate_response
 from llm.rag import rag
 
@@ -135,6 +135,25 @@ def delete_knowledge():
     remove(knowledge_id)
 
     return jsonify({"message": "Knowledge item deleted successfully"})
+
+@app.route('/update_knowledge', methods=['POST'])
+def update_knowledge():
+    """
+    Update a knowledge item in the vector store.
+
+    Returns:
+        A JSON response indicating success or an error message.
+    """
+    data = request.json
+    knowledge_id = data.get('id')
+    title = data.get('title')
+    description = data.get('description')
+    if not knowledge_id or not title or not description:
+        return jsonify({"error": "Knowledge ID, title, and description are required"}), 400
+
+    update(knowledge_id, title, description)
+
+    return jsonify({"message": "Knowledge item updated successfully"})
 
 if __name__ == '__main__':
     app.run(debug=True)

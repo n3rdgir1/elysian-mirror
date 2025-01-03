@@ -24,3 +24,15 @@ def remove(knowledge_id):
         knowledge_id (str): The ID of the document to be removed.
     """
     vector_store.delete(ids=[knowledge_id])
+
+def update(knowledge_id, title, description):
+    """
+    Update a document in the vector store by deleting the old one and embedding the new one.
+
+    Args:
+        knowledge_id (str): The ID of the document to be updated.
+        title (str): The new title of the document.
+        description (str): The new description of the document.
+    """
+    remove(knowledge_id)
+    embed(title, description)

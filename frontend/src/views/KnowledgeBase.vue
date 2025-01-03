@@ -11,9 +11,14 @@
               <h2 class="text-xl font-bold">{{ item.title }}</h2>
               <p v-if="item.showDescription" class="mt-2" v-html="formatDescription(item.description)"></p>
             </div>
-            <button @click="openDeleteConfirmationModal(item)" class="text-red-500">
-              <i class="fas fa-trash"></i>
-            </button>
+            <div class="flex items-center">
+              <button @click="openEditKnowledgeModal(item)" class="text-blue-500 mr-2">
+                <i class="fas fa-pencil-alt"></i>
+              </button>
+              <button @click="openDeleteConfirmationModal(item)" class="text-red-500">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
           </div>
         </li>
       </ul>
@@ -30,22 +35,36 @@
       @close="closeDeleteConfirmationModal"
       @confirm="deleteKnowledgeItem"
     />
+    <AddKnowledgeModal
+      v-if="isAddKnowledgeModalOpen"
+      @close="closeAddKnowledgeModal"
+      :initialTitle="knowledgeItemToEdit ? knowledgeItemToEdit.title : ''"
+      :initialDescription="knowledgeItemToEdit ? knowledgeItemToEdit.description : ''"
+      :isEditing="isEditing"
+      :knowledgeId="knowledgeItemToEdit ? knowledgeItemToEdit.id : null"
+      @refresh="fetchKnowledgeItems"
+    />
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from 'vue'
 import DeleteConfirmationModal from '../components/DeleteConfirmationModal.vue'
+import AddKnowledgeModal from '../components/AddKnowledgeModal.vue'
 
 export default {
   name: 'KnowledgeBase',
   components: {
-    DeleteConfirmationModal
+    DeleteConfirmationModal,
+    AddKnowledgeModal
   },
   setup() {
     const knowledgeItems = ref([])
     const isDeleteConfirmationModalOpen = ref(false)
+    const isAddKnowledgeModalOpen = ref(false)
     const knowledgeItemToDelete = ref(null)
+    const knowledgeItemToEdit = ref(null)
+    const isEditing = ref(false)
 
     async function fetchKnowledgeItems() {
       try {
@@ -72,9 +91,19 @@ export default {
     }
 
     function openAddKnowledgeModal() {
-      // Emit an event to open the Add Knowledge modal
-      const event = new CustomEvent('open-add-knowledge-modal')
-      window.dispatchEvent(event)
+      isEditing.value = false
+      isAddKnowledgeModalOpen.value = true
+    }
+
+    function openEditKnowledgeModal(item) {
+      knowledgeItemToEdit.value = item
+      isEditing.value = true
+      isAddKnowledgeModalOpen.value = true
+    }
+
+    function closeAddKnowledgeModal() {
+      isAddKnowledgeModalOpen.value = false
+      knowledgeItemToEdit.value = null
     }
 
     function openDeleteConfirmationModal(item) {
@@ -93,10 +122,16 @@ export default {
       toggleDescription,
       formatDescription,
       openAddKnowledgeModal,
+      openEditKnowledgeModal,
+      closeAddKnowledgeModal,
       openDeleteConfirmationModal,
       closeDeleteConfirmationModal,
       isDeleteConfirmationModalOpen,
-      knowledgeItemToDelete
+      isAddKnowledgeModalOpen,
+      knowledgeItemToDelete,
+      knowledgeItemToEdit,
+      isEditing,
+      fetchKnowledgeItems
     }
   }
 }
