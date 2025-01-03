@@ -136,6 +136,6 @@ def delete_knowledge():
     vector_store.delete(ids=[knowledge_id])
 
     return jsonify({"message": "Knowledge item deleted successfully"})
-    
+
 if __name__ == '__main__':
     app.run(debug=True)
