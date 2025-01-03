@@ -3,7 +3,7 @@ This module contains a Flask web application that uses the Ollama Llama3 model
 to generate responses based on user-provided prompts.
 """
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from langchain_ollama.llms import OllamaLLM
 from util.database import initialize_database, get_session
@@ -12,8 +12,9 @@ from util.models.metadata import Metadata
 from llm.embedder import embed, remove, update
 from llm.generate_response import generate_response
 from llm.rag import rag
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='frontend/dist')
 CORS(app)  # Enable CORS for the app
 
 # Initialize database
@@ -155,5 +156,20 @@ def update_knowledge():
 
     return jsonify({"message": "Knowledge item updated successfully"})
 
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    """
+    Serve the built UI files.
+
+    Returns:
+        The requested file or the index.html file.
+    """
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    debug_mode = os.getenv('FLASK_DEBUG', 'False').lower() in ['true', '1', 't']
+    app.run(debug=debug_mode)

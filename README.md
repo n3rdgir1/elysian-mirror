@@ -55,7 +55,27 @@ This project is a Flask web application that uses `pgvector` for vector storage 
    export DATABASE_URL="postgresql://mirror:mysecretpassword@localhost:6024/mirror"
    ```
 
-### Step 4: Run the Application
+### Step 4: Build the UI
+
+1. Navigate to the `frontend` directory:
+
+   ```bash
+   cd frontend
+   ```
+
+2. Install the frontend dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Build the UI:
+
+   ```bash
+   npm run build
+   ```
+
+### Step 5: Run the Application
 
 1. Start the Flask application:
 
@@ -65,7 +85,7 @@ This project is a Flask web application that uses `pgvector` for vector storage 
 
 2. Access the application at `http://localhost:5000`.
 
-### Step 5: Install Ollama models
+### Step 6: Install Ollama models
 
 1. Install the necessary models
 
@@ -73,6 +93,20 @@ This project is a Flask web application that uses `pgvector` for vector storage 
    ollama pull phi3:mini
    ollama pull mistral
    ```
+
+### Running the API in Development Mode
+
+To run the API in development mode, set the `FLASK_DEBUG` environment variable to `True`:
+
+```bash
+export FLASK_DEBUG=True
+```
+
+Then start the Flask application as usual:
+
+```bash
+python app.py
+```
 
 ## Endpoints
 
