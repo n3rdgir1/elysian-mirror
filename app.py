@@ -6,7 +6,7 @@ to generate responses based on user-provided prompts.
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from langchain_ollama.llms import OllamaLLM
-from util.database import initialize_database, get_session
+from util.database import initialize_database, get_session, vector_store
 from util.models.embeddings import Embedding
 from util.models.metadata import Metadata
 from llm.embedder import embed
@@ -115,9 +115,27 @@ def get_knowledge():
     knowledge_items = []
     for doc in Embedding().all(session):
         title, description = doc.document.split('\n', 1)
-        knowledge_items.append({'title': title, 'description': description})
+        knowledge_items.append({'title': title, 'description': description, 'id': doc.id})
 
     return jsonify({'knowledge': knowledge_items})
 
+@app.route('/delete_knowledge', methods=['POST'])
+def delete_knowledge():
+    """
+    Delete a knowledge item from the vector store.
+
+    Returns:
+        A JSON response indicating success or an error message.
+    """
+    data = request.json
+    knowledge_id = data.get('id')
+    if not knowledge_id:
+        return jsonify({"error": "Knowledge ID is required"}), 400
+
+    # Delete the knowledge item from the vector store
+    vector_store.delete(ids=[knowledge_id])
+
+    return jsonify({"message": "Knowledge item deleted successfully"})
+    
 if __name__ == '__main__':
     app.run(debug=True)
