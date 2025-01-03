@@ -27,7 +27,7 @@ def retrieve(question: str):
     sources = []
     for doc in docs:
         title, description = doc.page_content.split('\n', 1)
-        sources.append({'title': title, 'description': description})
+        sources.append({'title': title, 'description': description, 'id': doc.metadata['id']})
     return docs, sources
 
 def answer_with_context(question: str, docs: str):
