@@ -11,7 +11,7 @@ RAG_PROMPT = PromptTemplate(
     template="""You are an assistant for question-answering tasks.
 Use the following pieces of retrieved context to answer the question.
 If you don't know the answer, just say that you don't know.
-Use three sentences maximum and keep the answer concise.
+Use three sentences maximum and keep the answer concise, avoid including any extra information or references to the context.
 Only include information that is present in the context.
 
 Question: {question}
