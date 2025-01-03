@@ -12,6 +12,7 @@ RAG_PROMPT = PromptTemplate(
 Use the following pieces of retrieved context to answer the question.
 If you don't know the answer, just say that you don't know.
 Use three sentences maximum and keep the answer concise.
+Only include information that is present in the context.
 
 Question: {question}
 
