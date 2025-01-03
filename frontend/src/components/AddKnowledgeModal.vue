@@ -1,7 +1,7 @@
 <template>
   <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
     <div class="bg-white p-6 rounded shadow-lg w-1/3">
-      <h2 class="text-2xl mb-4">Add Knowledge</h2>
+      <h2 class="text-2xl mb-4">{{ isEditing ? 'Edit Knowledge' : 'Add Knowledge' }}</h2>
       <form @submit.prevent="handleSubmit">
         <div class="mb-4">
           <label for="title" class="block text-gray-700">Title</label>
@@ -41,6 +41,14 @@ export default {
     initialDescription: {
       type: String,
       default: ''
+    },
+    isEditing: {
+      type: Boolean,
+      default: false
+    },
+    knowledgeId: {
+      type: String,
+      default: null
     }
   },
   setup(props) {
@@ -76,12 +84,15 @@ export default {
 
       isLoading.value = true
       try {
-        const response = await fetch('http://127.0.0.1:5000/embed', {
+        const endpoint = props.isEditing ? 'http://127.0.0.1:5000/update_knowledge' : 'http://127.0.0.1:5000/embed'
+        const payload = props.isEditing ? { id: props.knowledgeId, title: title.value, description: description.value } : { title: title.value, description: description.value }
+
+        const response = await fetch(endpoint, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ title: title.value, description: description.value })
+          body: JSON.stringify(payload)
         })
 
         if (!response.ok) {
@@ -92,6 +103,9 @@ export default {
         apiResponse.value = data
         title.value = ''
         description.value = ''
+        if (!props.isEditing) {
+          $emit('refresh')
+        }
       } catch (error) {
         apiResponse.value = { message: 'Error: ' + error.message }
       } finally {
