@@ -51,7 +51,7 @@ export default {
       default: null
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const title = ref(props.initialTitle)
     const description = ref(props.initialDescription)
     const errors = ref({})
@@ -104,7 +104,7 @@ export default {
         title.value = ''
         description.value = ''
         if (!props.isEditing) {
-          $emit('refresh')
+          emit('refresh')
         }
       } catch (error) {
         apiResponse.value = { message: 'Error: ' + error.message }
