@@ -40,7 +40,7 @@ def answer_with_context(question: str, docs: str):
     Returns:
         str: The answer to the question.
     """
-    llm = OllamaLLM(model="llama3")
+    llm = OllamaLLM(model="phi3:mini")
 
     generation = RAG_PROMPT | llm | StrOutputParser()
 
@@ -55,7 +55,6 @@ def rag(question: str):
     Returns:
         dict: The answer to the question and the sources.
     """
-
     docs, sources = retrieve(question)
     answer = answer_with_context(question, docs)
     return {'answer': answer, 'sources': sources}

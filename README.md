@@ -7,6 +7,7 @@ This project is a Flask web application that uses `pgvector` for vector storage 
 - Docker
 - Python 3.8+
 - pip
+- ollama
 
 ## Setup Instructions
 
@@ -63,6 +64,15 @@ This project is a Flask web application that uses `pgvector` for vector storage 
    ```
 
 2. Access the application at `http://localhost:5000`.
+
+### Step 5: Install Ollama models
+
+1. Install the necessary models
+
+   ```bash
+   ollama pull phi3:mini
+   ollama pull mistral
+   ```
 
 ## Endpoints
 

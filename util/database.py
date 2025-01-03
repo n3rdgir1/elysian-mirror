@@ -12,7 +12,7 @@ DATABASE_URL = os.getenv(
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
 vector_store = PGVector(
-    embeddings=OllamaEmbeddings(model="llama3"),
+    embeddings=OllamaEmbeddings(model="phi3:mini"),
     collection_name='embeddings',
     connection=DATABASE_URL,
     use_jsonb=True,

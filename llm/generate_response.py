@@ -14,7 +14,7 @@ def generate_response(session, prompt):
     Returns:
         The generated response text.
     """
-    llm = OllamaLLM(model="llama3")
+    llm = OllamaLLM(model="mistral")
     system_prompt = Metadata().get_system_prompt(session)
     template = ChatPromptTemplate.from_template("{system_prompt}\n{question}")
     chain = template | llm
