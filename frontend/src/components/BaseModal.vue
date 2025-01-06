@@ -6,7 +6,7 @@
       </button>
       <slot></slot>
       <div class="mt-4 flex justify-start button-container">
-        <button v-if="confirm_text" @click="confirmAction" class="bg-blue-500 text-white p-2 rounded mr-2" ref="confirmButton">{{ confirm_text }}</button>
+        <button v-if="confirm_text" @click="confirmAction" :disabled="isConfirming" class="bg-blue-500 text-white p-2 rounded mr-2" ref="confirmButton">{{ confirm_text }}</button>
         <button v-if="cancel_text" @click="closeModal" class="bg-gray-500 text-white p-2 rounded mr-2" ref="cancelButton">{{ cancel_text }}</button>
       </div>
       <div v-if="serverMessage" class="mt-4 text-blue-500">{{ serverMessage }}</div>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 
 export default {
   name: 'BaseModal',
@@ -37,14 +37,22 @@ export default {
     const confirmButton = ref(null)
     const cancelButton = ref(null)
     const closeButton = ref(null)
+    const isConfirming = ref(false)
 
     function closeModal() {
       emit('close')
     }
 
     function confirmAction() {
+      isConfirming.value = true
       emit('confirm')
     }
+
+    watch(() => props.serverMessage, (newVal) => {
+      if (newVal) {
+        isConfirming.value = false
+      }
+    })
 
     onMounted(() => {
       if (confirmButton.value) {
@@ -61,7 +69,8 @@ export default {
       confirmAction,
       confirmButton,
       cancelButton,
-      closeButton
+      closeButton,
+      isConfirming
     }
   }
 }
