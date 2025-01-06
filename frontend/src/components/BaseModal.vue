@@ -4,7 +4,7 @@
       <button @click="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
         <i class="fas fa-times"></i>
       </button>
-      <div v-if="content" v-html="content"></div>
+      <slot></slot>
       <div class="mt-4 flex justify-start button-container">
         <button v-if="confirm_text" @click="confirmAction" class="bg-blue-500 text-white p-2 rounded mr-2" ref="confirmButton">{{ confirm_text }}</button>
         <button v-if="cancel_text" @click="closeModal" class="bg-gray-500 text-white p-2 rounded mr-2" ref="cancelButton">{{ cancel_text }}</button>
@@ -25,10 +25,6 @@ export default {
       default: ''
     },
     cancel_text: {
-      type: String,
-      default: ''
-    },
-    content: {
       type: String,
       default: ''
     },

@@ -2,10 +2,11 @@
   <BaseModal
     confirm_text="Confirm"
     cancel_text="Cancel"
-    content="Are you sure you want to delete this knowledge item?"
     @close="$emit('close')"
     @confirm="handleConfirm"
-  />
+  >
+  <p>Are you sure you want to delete this knowledge item?</p>
+  </BaseModal>
 </template>
 
 <script>

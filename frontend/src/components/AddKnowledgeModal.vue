@@ -2,14 +2,27 @@
   <BaseModal
     :confirm_text="isEditing ? 'Save' : 'Add'"
     cancel_text="Cancel"
-    :content="modalContent"
     @close="$emit('close')"
     @confirm="handleSubmit"
-  />
+  >
+    <div>
+      <h2 class="text-2xl mb-4">{{header}}</h2>
+        <div class="mb-4">
+          <label for="title" class="block text-gray-700">Title</label>
+          <input v-model="title" id="title" type="text" class="mt-1 block w-full p-2 border rounded" />
+          <span v-if="errors.title" class="text-red-500">{{ errors.title }}</span>
+        </div>
+        <div class="mb-4">
+          <label for="description" class="block text-gray-700">Description</label>
+          <textarea v-model="description" id="description" class="mt-1 block w-full p-2 border rounded" rows="5"></textarea>
+          <span v-if="errors.description" class="text-red-500">{{ errors.description }}</span>
+        </div>
+    </div>
+  </BaseModal>
 </template>
 
 <script>
-import { ref, watch, computed } from 'vue'
+import { ref, watch } from 'vue'
 import BaseModal from './BaseModal.vue'
 
 export default {
@@ -38,6 +51,7 @@ export default {
   setup(props, { emit }) {
     const title = ref(props.initialTitle)
     const description = ref(props.initialDescription)
+    const header = ref('Add Knowledge')
     const errors = ref({})
     const isLoading = ref(false)
     const apiResponse = ref(null)
@@ -48,6 +62,12 @@ export default {
 
     watch(() => props.initialDescription, (newDescription) => {
       description.value = newDescription
+    })
+
+    watch(() => props.isEditing, (isEditing) => {
+      if (isEditing) {
+        header.value = 'Edit Knowledge'
+      }
     })
 
     function validateForm() {
@@ -97,35 +117,13 @@ export default {
       }
     }
 
-    const modalContent = computed(() => `
-      <div>
-        <h2 class="text-2xl mb-4">${props.isEditing ? 'Edit Knowledge' : 'Add Knowledge'}</h2>
-        <form @submit.prevent="handleSubmit">
-          <div class="mb-4">
-            <label for="title" class="block text-gray-700">Title</label>
-            <input v-model="title" id="title" type="text" class="mt-1 block w-full p-2 border rounded" />
-            <span v-if="errors.title" class="text-red-500">{{ errors.title }}</span>
-          </div>
-          <div class="mb-4">
-            <label for="description" class="block text-gray-700">Description</label>
-            <textarea v-model="description" id="description" class="mt-1 block w-full p-2 border rounded" rows="5"></textarea>
-            <span v-if="errors.description" class="text-red-500">{{ errors.description }}</span>
-          </div>
-        </form>
-        <div v-if="apiResponse" class="mt-4">
-          <p>{{ apiResponse.message }}</p>
-        </div>
-      </div>
-    `)
-
     return {
       title,
       description,
       errors,
       isLoading,
       apiResponse,
-      handleSubmit,
-      modalContent
+      handleSubmit
     }
   }
 }
