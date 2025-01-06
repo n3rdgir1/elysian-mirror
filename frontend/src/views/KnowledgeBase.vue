@@ -34,6 +34,7 @@
       :knowledgeItem="knowledgeItemToDelete"
       @close="closeDeleteConfirmationModal"
       @confirm="deleteKnowledgeItem"
+      @server-message="handleServerMessage"
     />
     <AddKnowledgeModal
       v-if="isAddKnowledgeModalOpen"
@@ -43,6 +44,7 @@
       :isEditing="isEditing"
       :knowledgeId="knowledgeItemToEdit ? knowledgeItemToEdit.id : null"
       @refresh="fetchKnowledgeItems"
+      @server-message="handleServerMessage"
     />
   </div>
 </template>
@@ -58,7 +60,7 @@ export default {
     DeleteConfirmationModal,
     AddKnowledgeModal
   },
-  setup() {
+  setup(props, {emit}) {
     const knowledgeItems = ref([])
     const isDeleteConfirmationModalOpen = ref(false)
     const isAddKnowledgeModalOpen = ref(false)
@@ -95,6 +97,10 @@ export default {
       isAddKnowledgeModalOpen.value = true
     }
 
+    function deleteKnowledgeItem(item_id) {
+      knowledgeItems.value = knowledgeItems.value.filter(knowledgeItem => knowledgeItem.id !== item_id)
+    }
+
     function openEditKnowledgeModal(item) {
       knowledgeItemToEdit.value = item
       isEditing.value = true
@@ -115,6 +121,10 @@ export default {
       isDeleteConfirmationModalOpen.value = false
     }
 
+    function handleServerMessage({ message, type }) {
+      console.log('Message:', message, 'Type:', type)
+      emit('server-message', { message, type })
+    }
     onMounted(fetchKnowledgeItems)
 
     return {
@@ -131,7 +141,9 @@ export default {
       knowledgeItemToDelete,
       knowledgeItemToEdit,
       isEditing,
-      fetchKnowledgeItems
+      fetchKnowledgeItems,
+      handleServerMessage,
+      deleteKnowledgeItem
     }
   }
 }

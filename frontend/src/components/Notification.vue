@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'Notification',
+  name: 'AppNotification',
   props: {
     message: {
       type: String,
@@ -71,5 +71,6 @@ export default {
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
+  margin-left: 0.5rem;
 }
 </style>

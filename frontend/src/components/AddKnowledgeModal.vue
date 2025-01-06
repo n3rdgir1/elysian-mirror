@@ -108,18 +108,13 @@ export default {
         apiResponse.value = data
 
         // Emit the server message and type
-        emit('server-message', { message: data.message, type: data.success ? 'success' : 'error' })
-
-        // Close the modal if the server message is a success
-        if (data.success) {
-          emit('close')
-        }
+        emit('server-message', { message: data.message, type: 'success' })
 
         title.value = ''
         description.value = ''
-        if (!props.isEditing) {
-          emit('refresh')
-        }
+        emit('refresh')
+        emit('close')
+
       } catch (error) {
         apiResponse.value = { message: 'Error: ' + error.message }
         emit('server-message', { message: 'Error: ' + error.message, type: 'error' })
@@ -134,7 +129,8 @@ export default {
       errors,
       isLoading,
       apiResponse,
-      handleSubmit
+      handleSubmit,
+      header // Add header to the return object
     }
   }
 }

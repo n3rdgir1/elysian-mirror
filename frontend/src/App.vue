@@ -22,7 +22,7 @@
               </router-link>
             </li>
             <li class="mb-4">
-              <router-link to="/generate-ideas" class="flex flex-col items-center">
+              <router-link to="/generate-ideas" @click="handleServerMessage" class="flex flex-col items-center">
                 <i :class="['fas fa-lightbulb', { 'text-2xl': isCollapsed, 'text-4xl': !isCollapsed }]"></i>
                 <span v-if="!isCollapsed" class="mt-2 text-center">Generate<br>Ideas</span>
               </router-link>
@@ -43,12 +43,12 @@
         </nav>
       </aside>
       <main class="flex-1 ml-16">
-        <router-view />
+        <router-view @server-message="handleServerMessage" />
       </main>
     </div>
-    <AddKnowledgeModal v-if="isAddKnowledgeModalOpen" @close="closeAddKnowledgeModal" />
-    <div class="fixed top-0 right-0 m-4">
-      <Notification
+    <AddKnowledgeModal v-if="isAddKnowledgeModalOpen" @close="closeAddKnowledgeModal" @server-message="handleServerMessage" />
+    <div class="fixed top-0 right-0 m-4 z-20">
+      <AppNotification
         v-for="notification in notifications"
         :key="notification.id"
         :message="notification.message"
@@ -63,13 +63,13 @@
 <script>
 import { ref } from 'vue'
 import AddKnowledgeModal from './components/AddKnowledgeModal.vue'
-import Notification from './components/Notification.vue'
+import AppNotification from './components/Notification.vue' // Updated import
 
 export default {
   name: 'App',
   components: {
     AddKnowledgeModal,
-    Notification
+    AppNotification // Updated component name
   },
   setup() {
     const isCollapsed = ref(true) // Set to true to collapse by default
@@ -97,6 +97,10 @@ export default {
       notifications.value = notifications.value.filter(notification => notification.id !== id)
     }
 
+    function handleServerMessage({ message, type }) {
+      addNotification(message, type)
+    }
+
     return {
       isCollapsed,
       toggleMenu,
@@ -105,7 +109,8 @@ export default {
       closeAddKnowledgeModal,
       notifications,
       addNotification,
-      removeNotification
+      removeNotification,
+      handleServerMessage
     }
   }
 }
