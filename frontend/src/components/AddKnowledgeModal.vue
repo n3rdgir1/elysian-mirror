@@ -89,7 +89,7 @@ export default {
 
       isLoading.value = true
       try {
-        const endpoint = props.isEditing ? 'http://127.0.0.1:5000/update_knowledge' : 'http://127.0.0.1:5000/embed'
+        const endpoint = props.isEditing ? 'http://127.0.0.1:5012/update_knowledge' : 'http://127.0.0.1:5012/embed'
         const payload = props.isEditing ? { id: props.knowledgeId, title: title.value, description: description.value } : { title: title.value, description: description.value }
 
         const response = await fetch(endpoint, {

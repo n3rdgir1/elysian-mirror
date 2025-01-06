@@ -25,7 +25,7 @@ export default {
 
     async function fetchSystemPrompt() {
       try {
-        const response = await fetch('http://127.0.0.1:5000/system_prompt')
+        const response = await fetch('http://127.0.0.1:5012/system_prompt')
 
         const data = await response.json()
         systemPrompt.value = data.system_prompt
@@ -36,7 +36,7 @@ export default {
 
     async function saveSystemPrompt() {
       try {
-        await fetch('http://127.0.0.1:5000/system_prompt', {
+        await fetch('http://127.0.0.1:5012/system_prompt', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'

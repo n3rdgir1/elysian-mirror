@@ -1,0 +1,30 @@
+services:
+  pgvector:
+    image: pgvector/pgvector:pg16
+    container_name: pgvector
+    environment:
+      POSTGRES_USER: mirror
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: mirror
+    ports:
+      - "6024:5432"
+    networks:
+      - elysian-network
+
+  elysian-mirror:
+    image: ghcr.io/n3rdgir1/elysian-mirror:latest
+    container_name: elysian-mirror
+    environment:
+      DATABASE_URL: "postgresql://mirror:mysecretpassword@pgvector:5432/mirror"
+      OLLAMA_URL: "http://host.docker.internal:11434"
+      HOST: '0.0.0.0'
+    ports:
+      - "5012:5012"
+    depends_on:
+      - pgvector
+    networks:
+      - elysian-network
+
+networks:
+  elysian-network:
+    driver: bridge

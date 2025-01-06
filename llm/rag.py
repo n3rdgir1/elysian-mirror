@@ -1,5 +1,6 @@
 "Base RAG implementation to use as a baseline"
 
+import os
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_ollama.llms import OllamaLLM
@@ -40,7 +41,8 @@ def answer_with_context(question: str, docs: str):
     Returns:
         str: The answer to the question.
     """
-    llm = OllamaLLM(model="phi3:mini")
+    ollama_url = os.getenv('OLLAMA_URL', 'http://localhost:11434')
+    llm = OllamaLLM(model="phi3:mini", base_url=ollama_url)
 
     generation = RAG_PROMPT | llm | StrOutputParser()
 
