@@ -2,17 +2,15 @@
 This module contains a Flask web application that uses the Ollama Llama3 model
 to generate responses based on user-provided prompts.
 """
-
+import os
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-from langchain_ollama.llms import OllamaLLM
 from util.database import initialize_database, get_session
 from util.models.embeddings import Embedding
 from util.models.metadata import Metadata
 from llm.embedder import embed, remove, update
 from llm.generate_response import generate_response
 from llm.rag import rag
-import os
 
 app = Flask(__name__, static_folder='frontend/dist')
 CORS(app)  # Enable CORS for the app
@@ -20,10 +18,6 @@ CORS(app)  # Enable CORS for the app
 # Initialize database
 initialize_database()
 session = get_session()
-
-# Initialize the LLM with Ollama Llama3
-ollama_url = os.getenv('OLLAMA_URL', 'http://localhost:11434')
-llm = OllamaLLM(model="llama3", base_url=ollama_url)
 
 @app.route('/generate', methods=['POST'])
 def generate():
@@ -173,4 +167,7 @@ def serve(path):
 
 if __name__ == '__main__':
     debug_mode = os.getenv('FLASK_DEBUG', 'False').lower() in ['true', '1', 't']
-    app.run(debug=debug_mode)
+    if os.getenv('HOST'):
+        app.run(host=os.getenv('HOST'), port=5012)
+    else:
+        app.run(port=5012, debug=debug_mode)

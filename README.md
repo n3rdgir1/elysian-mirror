@@ -121,7 +121,7 @@ python app.py
 To build the Docker image for the application, run the following command in the root directory of the project:
 
 ```bash
-docker build -t your-username/elysian-mirror:latest .
+docker build -t n3rdgir1/elysian-mirror:latest .
 ```
 
 ### Publishing the Docker Image to GitHub's Registry
@@ -131,19 +131,19 @@ To publish the Docker image to GitHub's registry, follow these steps:
 1. Authenticate with GitHub's Docker registry:
 
    ```bash
-   echo $GITHUB_TOKEN | docker login ghcr.io -u your-username --password-stdin
+   echo $GITHUB_TOKEN | docker login ghcr.io -u n3rdgir1 --password-stdin
    ```
 
 2. Tag the Docker image:
 
    ```bash
-   docker tag your-username/elysian-mirror:latest ghcr.io/your-username/elysian-mirror:latest
+   docker tag n3rdgir1/elysian-mirror:latest ghcr.io/n3rdgir1/elysian-mirror:latest
    ```
 
 3. Push the Docker image to GitHub's registry:
 
    ```bash
-   docker push ghcr.io/your-username/elysian-mirror:latest
+   docker push ghcr.io/n3rdgir1/elysian-mirror:latest
    ```
 
 ### Running the Docker Container
@@ -151,7 +151,7 @@ To publish the Docker image to GitHub's registry, follow these steps:
 To run the Docker container, use the following command:
 
 ```bash
-docker run -d -p 5000:5000 --name elysian-mirror ghcr.io/your-username/elysian-mirror:latest
+docker-compose up -d
 ```
 
-This will start the container and expose the application on port 5000.
+This will start the containers and expose the application on port 5012.

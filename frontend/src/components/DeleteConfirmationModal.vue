@@ -34,7 +34,7 @@ export default {
       isLoading.value = true
       message.value = ''
       try {
-        const response = await fetch('http://127.0.0.1:5000/delete_knowledge', {
+        const response = await fetch('http://127.0.0.1:5012/delete_knowledge', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

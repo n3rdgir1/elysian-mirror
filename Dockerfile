@@ -11,6 +11,8 @@ RUN npm run build
 # Stage 2: Build the backend
 FROM python:3.8-slim AS backend-builder
 WORKDIR /app
+# Install libpq-dev for psycopg2
+RUN apt-get update && apt-get install -y libpq-dev gcc
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
