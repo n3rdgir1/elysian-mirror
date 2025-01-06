@@ -1,22 +1,24 @@
 <template>
-  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white p-6 rounded shadow-lg w-1/3">
-      <h2 class="text-2xl mb-4">Delete Confirmation</h2>
-      <p>Are you sure you want to delete this knowledge item?</p>
-      <p v-if="message" class="mt-4 text-red-500">{{ message }}</p>
-      <div class="flex justify-end mt-4">
-        <button @click="handleCancel" class="bg-gray-500 text-white p-2 rounded mr-2">Cancel</button>
-        <button @click="handleConfirm" class="bg-red-500 text-white p-2 rounded">Confirm</button>
-      </div>
-    </div>
-  </div>
+  <BaseModal
+    confirm_text="Confirm"
+    cancel_text="Cancel"
+    :serverMessage="message"
+    @close="$emit('close')"
+    @confirm="handleConfirm"
+  >
+  <p>Are you sure you want to delete this knowledge item?</p>
+  </BaseModal>
 </template>
 
 <script>
 import { ref } from 'vue'
+import BaseModal from './BaseModal.vue'
 
 export default {
   name: 'DeleteConfirmationModal',
+  components: {
+    BaseModal
+  },
   props: {
     knowledgeItem: {
       type: Object,
@@ -26,10 +28,6 @@ export default {
   setup(props, { emit }) {
     const isLoading = ref(false)
     const message = ref('')
-
-    function handleCancel() {
-      emit('close')
-    }
 
     async function handleConfirm() {
       isLoading.value = true
@@ -60,7 +58,6 @@ export default {
     }
 
     return {
-      handleCancel,
       handleConfirm,
       isLoading,
       message
