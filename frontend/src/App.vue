@@ -47,21 +47,34 @@
       </main>
     </div>
     <AddKnowledgeModal v-if="isAddKnowledgeModalOpen" @close="closeAddKnowledgeModal" />
+    <div class="fixed top-0 right-0 m-4">
+      <Notification
+        v-for="notification in notifications"
+        :key="notification.id"
+        :message="notification.message"
+        :type="notification.type"
+        :id="notification.id"
+        @close="removeNotification"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue'
 import AddKnowledgeModal from './components/AddKnowledgeModal.vue'
+import Notification from './components/Notification.vue'
 
 export default {
   name: 'App',
   components: {
-    AddKnowledgeModal
+    AddKnowledgeModal,
+    Notification
   },
   setup() {
     const isCollapsed = ref(true) // Set to true to collapse by default
     const isAddKnowledgeModalOpen = ref(false)
+    const notifications = ref([])
 
     function toggleMenu() {
       isCollapsed.value = !isCollapsed.value
@@ -75,12 +88,24 @@ export default {
       isAddKnowledgeModalOpen.value = false
     }
 
+    function addNotification(message, type) {
+      const id = Date.now()
+      notifications.value.push({ id, message, type })
+    }
+
+    function removeNotification(id) {
+      notifications.value = notifications.value.filter(notification => notification.id !== id)
+    }
+
     return {
       isCollapsed,
       toggleMenu,
       isAddKnowledgeModalOpen,
       openAddKnowledgeModal,
-      closeAddKnowledgeModal
+      closeAddKnowledgeModal,
+      notifications,
+      addNotification,
+      removeNotification
     }
   }
 }

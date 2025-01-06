@@ -48,10 +48,17 @@ export default {
         }
 
         message.value = data.message || 'Knowledge item deleted successfully'
+        emit('server-message', { message: data.message || 'Knowledge item deleted successfully', type: 'success' })
+
+        if (data.success) {
+          emit('close')
+        }
+
         emit('confirm')
       } catch (error) {
         console.error('Error:', error)
         message.value = error.message
+        emit('server-message', { message: error.message, type: 'error' })
       } finally {
         isLoading.value = false
       }

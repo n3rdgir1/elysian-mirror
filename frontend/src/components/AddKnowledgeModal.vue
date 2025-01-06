@@ -106,6 +106,15 @@ export default {
 
         const data = await response.json()
         apiResponse.value = data
+
+        // Emit the server message and type
+        emit('server-message', { message: data.message, type: data.success ? 'success' : 'error' })
+
+        // Close the modal if the server message is a success
+        if (data.success) {
+          emit('close')
+        }
+
         title.value = ''
         description.value = ''
         if (!props.isEditing) {
@@ -113,6 +122,7 @@ export default {
         }
       } catch (error) {
         apiResponse.value = { message: 'Error: ' + error.message }
+        emit('server-message', { message: 'Error: ' + error.message, type: 'error' })
       } finally {
         isLoading.value = false
       }

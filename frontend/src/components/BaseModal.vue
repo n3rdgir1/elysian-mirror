@@ -9,7 +9,6 @@
         <button v-if="confirm_text" @click="confirmAction" :disabled="isConfirming" class="bg-blue-500 text-white p-2 rounded mr-2" ref="confirmButton">{{ confirm_text }}</button>
         <button v-if="cancel_text" @click="closeModal" class="bg-gray-500 text-white p-2 rounded mr-2" ref="cancelButton">{{ cancel_text }}</button>
       </div>
-      <div v-if="serverMessage" class="mt-4 text-blue-500">{{ serverMessage }}</div>
     </div>
   </div>
 </template>
