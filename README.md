@@ -115,3 +115,43 @@ python app.py
 - `PUT /system_prompt`: Update the system prompt.
 - `POST /embed`: Embed a title and description and save it to the database.
 - `POST /rag`: Retrieve and generate an answer for a given question using RAG. The response includes the generated answer and an array of sources.
+
+### Building the Docker Image
+
+To build the Docker image for the application, run the following command in the root directory of the project:
+
+```bash
+docker build -t your-username/elysian-mirror:latest .
+```
+
+### Publishing the Docker Image to GitHub's Registry
+
+To publish the Docker image to GitHub's registry, follow these steps:
+
+1. Authenticate with GitHub's Docker registry:
+
+   ```bash
+   echo $GITHUB_TOKEN | docker login ghcr.io -u your-username --password-stdin
+   ```
+
+2. Tag the Docker image:
+
+   ```bash
+   docker tag your-username/elysian-mirror:latest ghcr.io/your-username/elysian-mirror:latest
+   ```
+
+3. Push the Docker image to GitHub's registry:
+
+   ```bash
+   docker push ghcr.io/your-username/elysian-mirror:latest
+   ```
+
+### Running the Docker Container
+
+To run the Docker container, use the following command:
+
+```bash
+docker run -d -p 5000:5000 --name elysian-mirror ghcr.io/your-username/elysian-mirror:latest
+```
+
+This will start the container and expose the application on port 5000.

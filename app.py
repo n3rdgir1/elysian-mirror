@@ -22,7 +22,8 @@ initialize_database()
 session = get_session()
 
 # Initialize the LLM with Ollama Llama3
-llm = OllamaLLM(model="llama3")
+ollama_url = os.getenv('OLLAMA_URL', 'http://localhost:11434')
+llm = OllamaLLM(model="llama3", base_url=ollama_url)
 
 @app.route('/generate', methods=['POST'])
 def generate():
