@@ -22,7 +22,7 @@
               </router-link>
             </li>
             <li class="mb-4">
-              <router-link to="/generate-ideas" @click="handleServerMessage" class="flex flex-col items-center">
+              <router-link to="/generate-ideas" class="flex flex-col items-center">
                 <i :class="['fas fa-lightbulb', { 'text-2xl': isCollapsed, 'text-4xl': !isCollapsed }]"></i>
                 <span v-if="!isCollapsed" class="mt-2 text-center">Generate<br>Ideas</span>
               </router-link>

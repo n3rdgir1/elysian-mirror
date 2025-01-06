@@ -1,7 +1,13 @@
 <template>
   <div class="h-full w-full">
     <ChatWindow title="Generate Ideas" apiEndpoint="/generate" @add-to-knowledge="openAddKnowledgeModal" :showAddToKnowledgeButton="true" />
-    <AddKnowledgeModal v-if="isAddKnowledgeModalOpen" @close="closeAddKnowledgeModal" :initialTitle="knowledgeTitle" :initialDescription="knowledgeDescription" />
+    <AddKnowledgeModal
+      v-if="isAddKnowledgeModalOpen"
+      @close="closeAddKnowledgeModal"
+      :initialTitle="knowledgeTitle"
+      :initialDescription="knowledgeDescription"
+      @server-message="handleServerMessage"
+    />
   </div>
 </template>
 
@@ -16,7 +22,7 @@ export default {
     ChatWindow,
     AddKnowledgeModal
   },
-  setup() {
+  setup(props, {emit}) {
     const isAddKnowledgeModalOpen = ref(false)
     const knowledgeTitle = ref('')
     const knowledgeDescription = ref('')
@@ -31,12 +37,17 @@ export default {
       isAddKnowledgeModalOpen.value = false
     }
 
+    function handleServerMessage({ message, type }) {
+      emit('server-message', { message, type })
+    }
+
     return {
       isAddKnowledgeModalOpen,
       knowledgeTitle,
       knowledgeDescription,
       openAddKnowledgeModal,
-      closeAddKnowledgeModal
+      closeAddKnowledgeModal,
+      handleServerMessage
     }
   }
 }

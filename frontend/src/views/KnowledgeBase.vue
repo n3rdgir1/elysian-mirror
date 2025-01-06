@@ -122,9 +122,9 @@ export default {
     }
 
     function handleServerMessage({ message, type }) {
-      console.log('Message:', message, 'Type:', type)
       emit('server-message', { message, type })
     }
+
     onMounted(fetchKnowledgeItems)
 
     return {
