@@ -72,10 +72,6 @@ export default {
           body: JSON.stringify({ prompt: userMessage.text })
         });
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
         const data = await response.json();
         const botMessage = {
           text: data.response || data.answer,
@@ -84,11 +80,7 @@ export default {
         };
         this.messages.push(botMessage);
       } catch (error) {
-        const errorMessage = {
-          text: 'Error: ' + error.message,
-          isUser: false
-        };
-        this.messages.push(errorMessage);
+        this.$emit('server-message', { message: 'Failed to send message', type: 'error' });
       }
     },
     addToKnowledge(botMessage, userMessage) {

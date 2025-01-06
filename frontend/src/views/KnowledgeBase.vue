@@ -71,16 +71,14 @@ export default {
     async function fetchKnowledgeItems() {
       try {
         const response = await fetch('http://127.0.0.1:5000/knowledge')
-        if (!response.ok) {
-          throw new Error('Failed to fetch knowledge items')
-        }
+
         const data = await response.json()
         knowledgeItems.value = data.knowledge.map(item => ({
           ...item,
           showDescription: false
         }))
       } catch (error) {
-        console.error('Error:', error)
+        emit('server-message', { message: 'Failed to fetch knowledge items', type: 'error' })
       }
     }
 

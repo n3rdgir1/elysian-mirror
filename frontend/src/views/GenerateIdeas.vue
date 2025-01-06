@@ -1,6 +1,12 @@
 <template>
   <div class="h-full w-full">
-    <ChatWindow title="Generate Ideas" apiEndpoint="/generate" @add-to-knowledge="openAddKnowledgeModal" :showAddToKnowledgeButton="true" />
+    <ChatWindow
+      title="Generate Ideas"
+      apiEndpoint="/generate"
+      @add-to-knowledge="openAddKnowledgeModal"
+      :showAddToKnowledgeButton="true"
+      @server-message="handleServerMessage"
+      />
     <AddKnowledgeModal
       v-if="isAddKnowledgeModalOpen"
       @close="closeAddKnowledgeModal"

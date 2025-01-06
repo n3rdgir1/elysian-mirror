@@ -11,7 +11,6 @@
         </div>
         <button type="submit" class="bg-blue-500 text-white p-2 rounded">Save</button>
       </form>
-      <div v-if="errorMessage" class="mt-4 text-red-500">{{ errorMessage }}</div>
     </div>
   </div>
 </template>
@@ -21,38 +20,32 @@ import { ref, onMounted } from 'vue'
 
 export default {
   name: 'SystemPrompt',
-  setup() {
+  setup(props, { emit }) {
     const systemPrompt = ref('')
-    const errorMessage = ref('')
 
     async function fetchSystemPrompt() {
       try {
         const response = await fetch('http://127.0.0.1:5000/system_prompt')
-        if (!response.ok) {
-          throw new Error('Failed to fetch system prompt')
-        }
+
         const data = await response.json()
         systemPrompt.value = data.system_prompt
       } catch (error) {
-        errorMessage.value = 'Error: ' + error.message
+        emit('server-message', { message: 'Failed to fetch system prompt', type: 'error' })
       }
     }
 
     async function saveSystemPrompt() {
       try {
-        const response = await fetch('http://127.0.0.1:5000/system_prompt', {
+        await fetch('http://127.0.0.1:5000/system_prompt', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ description: systemPrompt.value })
         })
-        if (!response.ok) {
-          throw new Error('Failed to save system prompt')
-        }
-        errorMessage.value = ''
+        emit('server-message', { message: 'System prompt saved', type: 'success' })
       } catch (error) {
-        errorMessage.value = 'Error: ' + error.message
+        emit('server-message', { message: 'Failed to save system prompt', type: 'error' })
       }
     }
 
@@ -60,7 +53,6 @@ export default {
 
     return {
       systemPrompt,
-      errorMessage,
       saveSystemPrompt
     }
   }
