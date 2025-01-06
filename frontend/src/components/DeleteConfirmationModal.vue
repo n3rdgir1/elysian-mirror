@@ -5,6 +5,7 @@
     :serverMessage="message"
     @close="$emit('close')"
     @confirm="handleConfirm"
+    @server-message="$emit('server-message', $event)"
   >
   <p>Are you sure you want to delete this knowledge item?</p>
   </BaseModal>
@@ -48,10 +49,15 @@ export default {
         }
 
         message.value = data.message || 'Knowledge item deleted successfully'
-        emit('confirm')
+        emit('server-message', { message: data.message || 'Knowledge item deleted successfully', type: 'success' })
+
+        emit('confirm', props.knowledgeItem.id)
+        emit('close')
+
       } catch (error) {
         console.error('Error:', error)
         message.value = error.message
+        emit('server-message', { message: error.message, type: 'error' })
       } finally {
         isLoading.value = false
       }

@@ -106,13 +106,18 @@ export default {
 
         const data = await response.json()
         apiResponse.value = data
+
+        // Emit the server message and type
+        emit('server-message', { message: data.message, type: 'success' })
+
         title.value = ''
         description.value = ''
-        if (!props.isEditing) {
-          emit('refresh')
-        }
+        emit('refresh')
+        emit('close')
+
       } catch (error) {
         apiResponse.value = { message: 'Error: ' + error.message }
+        emit('server-message', { message: 'Error: ' + error.message, type: 'error' })
       } finally {
         isLoading.value = false
       }
@@ -124,7 +129,8 @@ export default {
       errors,
       isLoading,
       apiResponse,
-      handleSubmit
+      handleSubmit,
+      header // Add header to the return object
     }
   }
 }
