@@ -2,6 +2,7 @@
   <BaseModal
     confirm_text="Confirm"
     cancel_text="Cancel"
+    :serverMessage="message"
     @close="$emit('close')"
     @confirm="handleConfirm"
   >

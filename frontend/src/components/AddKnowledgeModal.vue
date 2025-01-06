@@ -2,6 +2,7 @@
   <BaseModal
     :confirm_text="isEditing ? 'Save' : 'Add'"
     cancel_text="Cancel"
+    :serverMessage="apiResponse?.message"
     @close="$emit('close')"
     @confirm="handleSubmit"
   >
